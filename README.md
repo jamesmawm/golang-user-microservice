@@ -53,14 +53,18 @@ You should see:
 # Contributing
 
 The goal of this microservice to handle only API calls for user accounts.
+
 The first part involves CRUD operations.
+
 The second part involves authentication and authorization.
+
 The third part involves integration with external microservices and authenticate over JWT tokens.
 
-Some aras of enhancements:
+Some areas of enhancements for this microservice may be:
 
-- Using a MySQL database for storage.
+- Using a MySQL/Sqlite3 database for storage.
 - Enable CORS for cross-domain access over REST calls.
 - Generating and authenting JWT tokens.
-- Handling refresh tokens and session extension.
+- Handling refresh tokens, and session timeouts and extension.
+
     
