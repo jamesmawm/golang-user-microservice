@@ -40,6 +40,8 @@ You should see:
     
 ## Updating `swagger.yml`
 
+The APIs here should conform to OpenAPI as much as possible.
+
 1. In a web browser, go to:
 
     https://editor.swagger.io
