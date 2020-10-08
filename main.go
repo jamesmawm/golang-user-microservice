@@ -1,7 +1,7 @@
 package main
 
 import (
-	"golang-user-microservice/env"
+	"github.com/karimelazzouni/golang-user-microservice/env"
 	"log"
 	"net/http"
 	"os"
@@ -27,6 +27,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/api/ping", core.OnPing).Methods("GET")
+	router.HandleFunc("/api/user/signup", core.OnSignup).Methods("POST")
 
 	port := *bindAddress
 	handler := cor.Handler(router)
