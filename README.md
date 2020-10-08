@@ -66,5 +66,5 @@ Some areas of enhancements for this microservice may be:
 - Enable CORS for cross-domain access over REST calls.
 - Generating and authenting JWT tokens.
 - Handling refresh tokens, and session timeouts and extension.
-
+- Production deployment with Docker, with support for environment-level settings.
     
