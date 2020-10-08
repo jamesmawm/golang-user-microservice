@@ -10,14 +10,7 @@ import (
 	"github.com/rs/cors"
 )
 
-// var bindAddress = env.String("BIND_ADDRESS", false, ":8080", "Bind address for the SSV verify server")
-
 func main() {
-	// err := env.Parse()
-	// if err != nil {
-	// 	log.Println("Error parsing env", "error", err)
-	// 	os.Exit(1)
-	// }
 
 	config.ReadConfig()
 
@@ -31,6 +24,7 @@ func main() {
 	router.HandleFunc("/api/ping", core.OnPing).Methods("GET")
 
 	handler := cor.Handler(router)
-	http.ListenAndServe(config.GetPort(), handler)
-	log.Println("Listening!")
+	http.ListenAndServe(config.App.Server.Port, handler)
+	log.Printf("Port:%s Listening!", config.App.Server.Port)
+
 }

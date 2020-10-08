@@ -1,0 +1,14 @@
+{
+  "debug" : true,
+  "server" : {
+    "port" : "80",
+    "secret" : "whU6kroaCL1sou1UM5iOuPa1XZnmZ3g6"
+  },
+  "database" : {
+    "connection": "mysql",
+    "host": "127.0.0.1",
+    "name": "golang",
+    "username": "remote_go",
+    "password": "remote_go"
+  }
+}
