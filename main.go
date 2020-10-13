@@ -5,8 +5,7 @@ import (
 	"net/http"
 	"os"
 	"v1/core"
-
-	"github.com/karimelazzouni/golang-user-microservice/env"
+	"v1/env"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
