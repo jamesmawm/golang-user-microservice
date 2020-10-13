@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/karimelazzouni/golang-user-microservice/env"
 	"log"
 	"net/http"
 	"os"
 	"v1/core"
+
+	"github.com/karimelazzouni/golang-user-microservice/env"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -27,7 +28,10 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/api/ping", core.OnPing).Methods("GET")
-	router.HandleFunc("/api/user/signup", core.OnSignup).Methods("POST")
+	router.HandleFunc("/api/users", core.OnSignup).Methods("POST")
+	router.HandleFunc("/api/users", core.OnSignup).Methods("POST")
+	router.HandleFunc("/api/users", core.OnGetUsers).Methods("GET")
+	router.HandleFunc("/api/users/{uuid}", core.OnDeleteUser).Methods("DELETE")
 
 	port := *bindAddress
 	handler := cor.Handler(router)
