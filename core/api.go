@@ -55,7 +55,7 @@ func OnSignup(w http.ResponseWriter, r *http.Request) {
 	newUser.Password = hashedPass
 	newUser.UID = uuid.New()
 	users[newUser.UID] = newUser
-	_, _ = w.Write([]byte("User was added"))
+	return
 }
 
 func OnGetUsers(w http.ResponseWriter, r *http.Request) {
@@ -107,6 +107,49 @@ func OnGetUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseBytes, _ := json.Marshal(CreateAUserToReturn(user))
+	_, _ = w.Write(responseBytes)
+}
+
+func OnUpdateUser(w http.ResponseWriter, r *http.Request) {
+	ss := strings.Split(r.URL.Path, "/")
+	userUuid := ss[len(ss)-1]
+
+	if len(userUuid) == 0 {
+		http.Error(w, "Invalid query param", http.StatusBadRequest)
+		return
+	}
+
+	parsedUuid, parseErr := uuid.Parse(userUuid)
+	existingUser, ok := users[parsedUuid]
+	if parseErr != nil || !ok {
+		http.Error(w, "User with uuid "+userUuid+" does not exist", http.StatusBadRequest)
+		return
+	}
+
+	var receivedUser User
+	err := json.NewDecoder(r.Body).Decode(&receivedUser)
+
+	if err != nil {
+		http.Error(w, "Could not parse incoming body to a user type", http.StatusBadRequest)
+		return
+	}
+
+	if len(receivedUser.Username) == 0 {
+		receivedUser.Username = existingUser.Username
+	}
+
+	if len(receivedUser.Password) == 0 {
+		receivedUser.Password = existingUser.Password
+	} else {
+		b := md5.Sum([]byte(receivedUser.Password))
+		hashedPass := string(b[:])
+		receivedUser.Password = hashedPass
+	}
+	receivedUser.UID = parsedUuid
+
+	users[parsedUuid] = receivedUser
+
+	responseBytes, _ := json.Marshal(CreateAUserToReturn(receivedUser))
 	_, _ = w.Write(responseBytes)
 }
 
