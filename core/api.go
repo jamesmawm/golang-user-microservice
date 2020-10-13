@@ -90,6 +90,26 @@ func OnDeleteUser(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func OnGetUser(w http.ResponseWriter, r *http.Request) {
+	ss := strings.Split(r.URL.Path, "/")
+	userUuid := ss[len(ss)-1]
+
+	if len(userUuid) == 0 {
+		http.Error(w, "Invalid query param", http.StatusBadRequest)
+		return
+	}
+
+	parsedUuid, parseErr := uuid.Parse(userUuid)
+	user, ok := users[parsedUuid]
+	if parseErr != nil || !ok {
+		http.Error(w, "User with uuid "+userUuid+" does not exist", http.StatusBadRequest)
+		return
+	}
+
+	responseBytes, _ := json.Marshal(CreateAUserToReturn(user))
+	_, _ = w.Write(responseBytes)
+}
+
 func CreateAUserToReturn(u User) UserToReturn {
 	return UserToReturn{u.Username, u.UID}
 }
