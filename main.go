@@ -6,19 +6,16 @@ import (
 	"os"
 	"v1/core"
 	"v1/env"
+	"golang-user-microservice/config"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
-var bindAddress = env.String("BIND_ADDRESS", false, ":8080", "Bind address for the SSV verify server")
-
 func main() {
-	err := env.Parse()
-	if err != nil {
-		log.Println("Error parsing env", "error", err)
-		os.Exit(1)
-	}
+
+	config.ReadConfig()
+
 	cor := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Access-Control-Allow-Origin", "Content-Type", "Session-Key", "Device-ID"},
@@ -34,8 +31,8 @@ func main() {
 	router.HandleFunc("/api/users/{uuid}", core.OnGetUser).Methods("GET")
 	router.HandleFunc("/api/users/{uuid}", core.OnUpdateUser).Methods("PUT")
 
-	port := *bindAddress
 	handler := cor.Handler(router)
-	http.ListenAndServe(port, handler)
-	log.Println("Listening!")
+	http.ListenAndServe(config.App.Server.Port, handler)
+	log.Printf("Port:%s Listening!", config.App.Server.Port)
+
 }
