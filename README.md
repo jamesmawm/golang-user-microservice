@@ -43,7 +43,7 @@ Simply run in the background with a docker-enabled machine:
 
     docker-compose up -d
     
-Again, the ping with this URL should return a valid JSON response.
+Again, the ping check with this URL should return a valid JSON response.
 
     http://localhost:80/api/ping
     
