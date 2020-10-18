@@ -15,7 +15,8 @@ type Configurations struct {
 }
 
 type ServerConfig struct {
-	Port string
+	Port                            string
+	WaitDurationForGracefulShutdown string
 }
 
 type DatabaseConfig struct {

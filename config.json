@@ -2,6 +2,7 @@
   "debug" : true,
   "server" : {
     "port" : "80",
+    "waitdurationforgracefulshutdown": "15s",
     "secret" : "whU6kroaCL1sou1UM5iOuPa1XZnmZ3g6"
   },
   "database" : {
