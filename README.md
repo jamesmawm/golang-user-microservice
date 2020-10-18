@@ -31,11 +31,21 @@ Then run:
     
 In a browser, navigate to:
 
-    http://localhost:8080/api/ping
+    http://localhost:80/api/ping
     
 You should see:
 
     {"ok":true,"pong":true}
+    
+# Running with docker
+
+Simply run in the background with a docker-enabled machine:
+
+    docker-compose up -d
+    
+Again, the ping check with this URL should return a valid JSON response.
+
+    http://localhost:80/api/ping
     
     
 ## Updating `swagger.yml`
@@ -56,7 +66,7 @@ The APIs here should conform to OpenAPI as much as possible.
 
 The goal of this microservice to handle only API calls for user accounts.
 
-The first part involves CRUD operations.
+The first part involves CRUD operations. (completed)
 
 The second part involves authentication and authorization.
 
@@ -64,9 +74,9 @@ The third part involves integration with external microservices and authenticate
 
 Some areas of enhancements for this microservice may be:
 
-- Using a MySQL/Sqlite3 database for storage.
-- Enable CORS for cross-domain access over REST calls.
+- Using a MySQL/Sqlite3 database for storage. (completed)
+- Enable CORS for cross-domain access over REST calls. (completed)
 - Generating and authenting JWT tokens.
 - Handling refresh tokens, and session timeouts and extension.
-- Production deployment with Docker, with support for environment-level settings.
+- Production deployment with Docker, with support for environment-level settings. (completed)
     
