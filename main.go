@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/jamesmawm/golang-user-microservice/config"
+	"github.com/jamesmawm/golang-user-microservice/core"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
-	"v1/config"
-	"v1/core"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"

@@ -14,16 +14,6 @@ Enable go modules and go dep integration.
 
 ## Running the server
 
-Run the following commands using go modules:
-
-    go mod init v1
-    go mod download
-    go mod vendor
-    
-This creates a `go.mod` in the root directory.
-
-Then run:
-
     go run main.go
 
 
