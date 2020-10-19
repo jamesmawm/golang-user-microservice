@@ -6,11 +6,10 @@ COPY . .
 
 EXPOSE 80
 
-RUN go mod init v1 && \
-    go mod download && \
+RUN go mod download && \
     go mod vendor && \
     go build -v && \
     rm -rf vendor && \
-    mv v1 server 
+    mv golang-user-microservice server 
 
 CMD [ "./server" ]
