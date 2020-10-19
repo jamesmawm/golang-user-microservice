@@ -26,6 +26,12 @@ func main() {
 		wait = 0
 	}
 
+	db, err := core.InitDb()
+	if err != nil {
+		return
+	}
+	defer db.Close()
+
 	cor := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Access-Control-Allow-Origin", "Content-Type", "Session-Key", "Device-ID"},
@@ -34,7 +40,6 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/api/ping", core.OnPing).Methods("GET")
-	router.HandleFunc("/api/users", core.OnSignup).Methods("POST")
 	router.HandleFunc("/api/users", core.OnSignup).Methods("POST")
 	router.HandleFunc("/api/users", core.OnGetUsers).Methods("GET")
 	router.HandleFunc("/api/users/{uuid}", core.OnDeleteUser).Methods("DELETE")
