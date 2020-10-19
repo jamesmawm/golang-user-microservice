@@ -54,7 +54,6 @@ func OnSignup(w http.ResponseWriter, r *http.Request) {
 	newUser.Username = user.Username
 	newUser.Password = hashedPass
 	newUser.UID = uuid.New()
-	users[newUser.UID] = newUser
 	return
 }
 
