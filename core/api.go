@@ -11,17 +11,6 @@ import (
 
 var users = make(map[uuid.UUID]User)
 
-type User struct {
-	Username string `json:"username"`
-	Password string
-	UID      uuid.UUID `json:"uuid"`
-}
-
-type UserToReturn struct {
-	Username string
-	Uuid     uuid.UUID
-}
-
 func OnPing(w http.ResponseWriter, r *http.Request) {
 	response := map[string]interface{}{
 		"ok":   true,
@@ -59,7 +48,7 @@ func OnSignup(w http.ResponseWriter, r *http.Request) {
 }
 
 func OnGetUsers(w http.ResponseWriter, r *http.Request) {
-	values := make([]UserToReturn, 0, len(users))
+	values := make([]UserDto, 0, len(users))
 	for _, v := range users {
 		userToReturn := CreateAUserToReturn(v)
 		values = append(values, userToReturn)
