@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/go-gorm/gorm"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type User struct {
