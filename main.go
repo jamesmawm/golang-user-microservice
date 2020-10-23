@@ -8,8 +8,9 @@ import (
 	"os"
 	"os/signal"
 	"time"
-	"v1/boundary"
-	"v1/config"
+
+	"github.com/jamesmawm/golang-user-microservice/boundary"
+	"github.com/jamesmawm/golang-user-microservice/config"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"

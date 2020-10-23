@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"v1/control"
-	"v1/dto"
-	"v1/model"
+
+	"github.com/jamesmawm/golang-user-microservice/control"
+	"github.com/jamesmawm/golang-user-microservice/dto"
+	"github.com/jamesmawm/golang-user-microservice/model"
 
 	"github.com/google/uuid"
 )

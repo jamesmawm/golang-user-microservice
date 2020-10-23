@@ -1,7 +1,7 @@
 package data
 
 import (
-	"v1/model"
+	"github.com/jamesmawm/golang-user-microservice/model"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

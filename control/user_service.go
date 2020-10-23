@@ -2,8 +2,9 @@ package control
 
 import (
 	"errors"
-	"v1/data"
-	"v1/model"
+
+	"github.com/jamesmawm/golang-user-microservice/data"
+	"github.com/jamesmawm/golang-user-microservice/model"
 
 	"gorm.io/gorm"
 )
