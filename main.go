@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/jamesmawm/golang-user-microservice/config"
-	"github.com/jamesmawm/golang-user-microservice/core"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/jamesmawm/golang-user-microservice/boundary"
+	"github.com/jamesmawm/golang-user-microservice/config"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -26,25 +27,20 @@ func main() {
 		wait = 0
 	}
 
-	db, err := core.InitDb()
-	if err != nil {
-		return
-	}
-	defer db.Close()
-
 	cor := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Access-Control-Allow-Origin", "Content-Type", "Session-Key", "Device-ID"},
 		Debug:          true,
 	})
 
+	userApi := boundary.NewUserApi()
+
 	router := mux.NewRouter()
-	router.HandleFunc("/api/ping", core.OnPing).Methods("GET")
-	router.HandleFunc("/api/users", core.OnSignup).Methods("POST")
-	router.HandleFunc("/api/users", core.OnGetUsers).Methods("GET")
-	router.HandleFunc("/api/users/{uuid}", core.OnDeleteUser).Methods("DELETE")
-	router.HandleFunc("/api/users/{uuid}", core.OnGetUser).Methods("GET")
-	router.HandleFunc("/api/users/{uuid}", core.OnUpdateUser).Methods("PUT")
+	router.HandleFunc("/api/ping", boundary.OnPing).Methods("GET")
+	router.HandleFunc("/api/users", userApi.OnSignup).Methods("POST")
+	router.HandleFunc("/api/users/{uuid}", userApi.OnDeleteUser).Methods("DELETE")
+	router.HandleFunc("/api/users/{uuid}", userApi.OnGetUser).Methods("GET")
+	router.HandleFunc("/api/users/{uuid}", userApi.OnUpdateUser).Methods("PUT")
 
 	handler := cor.Handler(router)
 	address := fmt.Sprintf(":%s", config.App.Server.Port)
