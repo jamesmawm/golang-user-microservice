@@ -1,5 +1,7 @@
 FROM golang:1.15-alpine
 
+RUN apk add --update --no-cache gcc libc-dev
+
 WORKDIR /go/src/app
 
 COPY . .
