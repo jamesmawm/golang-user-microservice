@@ -41,6 +41,18 @@ func (service *UserService) FindOneByUid(uid string) *model.User {
 	return &user
 }
 
+func (service *UserService) FindOneByUsername(username string) *model.User {
+	var user model.User
+
+	res := service.db.First(&user, "username = ?", username)
+
+	if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+		return nil
+	}
+
+	return &user
+}
+
 func (service *UserService) Update(entity *model.User) {
 	service.db.Save(&entity)
 }
