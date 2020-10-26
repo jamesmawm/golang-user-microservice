@@ -48,6 +48,13 @@ func (api *UserApi) OnSignup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	existingUser := api.users.FindOneByUsername(dto.Username)
+
+	if existingUser != nil {
+		http.Error(w, "Username "+dto.Username+" already exists", http.StatusBadRequest)
+		return
+	}
+
 	var hashedPass string
 	var b [16]byte
 	b = md5.Sum([]byte(dto.Password))
