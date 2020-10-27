@@ -31,6 +31,13 @@ func ReadConfig() {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config")
 	viper.SetConfigType("json")
+
+	viper.BindEnv("database.connection", "DB_CONNECTION")
+	viper.BindEnv("database.host", "DB_HOST")
+	viper.BindEnv("database.name", "DB_DATABASE")
+	viper.BindEnv("database.username", "DB_USERNAME")
+	viper.BindEnv("database.password", "DB_PASSWORD")
+
 	err := viper.ReadInConfig()
 	if err != nil { // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
