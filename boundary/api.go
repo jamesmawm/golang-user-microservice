@@ -2,6 +2,7 @@ package boundary
 
 import (
 	"crypto/md5"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -14,12 +15,12 @@ import (
 	"github.com/google/uuid"
 )
 
-type UserApi struct {
+type UserAPI struct {
 	users *control.UserService
 }
 
-func NewUserApi() *UserApi {
-	return &UserApi{
+func NewUserAPI() *UserAPI {
+	return &UserAPI{
 		users: control.NewUserService(),
 	}
 }
@@ -35,7 +36,7 @@ func OnPing(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (api *UserApi) OnSignup(w http.ResponseWriter, r *http.Request) {
+func (api *UserAPI) OnSignup(w http.ResponseWriter, r *http.Request) {
 	var dto *dto.UserDto
 
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
@@ -58,7 +59,7 @@ func (api *UserApi) OnSignup(w http.ResponseWriter, r *http.Request) {
 	var hashedPass string
 	var b [16]byte
 	b = md5.Sum([]byte(dto.Password))
-	hashedPass = string(b[:])
+	hashedPass = base64.StdEncoding.EncodeToString(b[:])
 
 	user := &model.User{
 		UID:      uuid.New(),
@@ -72,7 +73,7 @@ func (api *UserApi) OnSignup(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func (api *UserApi) OnDeleteUser(w http.ResponseWriter, r *http.Request) {
+func (api *UserAPI) OnDeleteUser(w http.ResponseWriter, r *http.Request) {
 	ss := strings.Split(r.URL.Path, "/")
 	uid := ss[len(ss)-1]
 
@@ -93,7 +94,7 @@ func (api *UserApi) OnDeleteUser(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (api *UserApi) OnGetUser(w http.ResponseWriter, r *http.Request) {
+func (api *UserAPI) OnGetUser(w http.ResponseWriter, r *http.Request) {
 	ss := strings.Split(r.URL.Path, "/")
 	uid := ss[len(ss)-1]
 
@@ -113,7 +114,7 @@ func (api *UserApi) OnGetUser(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(responseBytes)
 }
 
-func (api *UserApi) OnUpdateUser(w http.ResponseWriter, r *http.Request) {
+func (api *UserAPI) OnUpdateUser(w http.ResponseWriter, r *http.Request) {
 	ss := strings.Split(r.URL.Path, "/")
 	uid := ss[len(ss)-1]
 
@@ -143,7 +144,7 @@ func (api *UserApi) OnUpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	if len(dto.Password) > 0 {
 		b := md5.Sum([]byte(dto.Password))
-		hashedPass := string(b[:])
+		hashedPass := base64.StdEncoding.EncodeToString(b[:])
 		user.Password = hashedPass
 	}
 
@@ -154,5 +155,9 @@ func (api *UserApi) OnUpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func convertToDto(u model.User) dto.UserDto {
-	return dto.UserDto{u.Username, "", u.UID}
+	return dto.UserDto{
+		Username: u.Username,
+		Password: "",
+		UID:      u.UID,
+	}
 }

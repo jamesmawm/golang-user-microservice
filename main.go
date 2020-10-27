@@ -33,14 +33,14 @@ func main() {
 		Debug:          true,
 	})
 
-	userApi := boundary.NewUserApi()
+	userAPI := boundary.NewUserAPI()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/api/ping", boundary.OnPing).Methods("GET")
-	router.HandleFunc("/api/users", userApi.OnSignup).Methods("POST")
-	router.HandleFunc("/api/users/{uuid}", userApi.OnDeleteUser).Methods("DELETE")
-	router.HandleFunc("/api/users/{uuid}", userApi.OnGetUser).Methods("GET")
-	router.HandleFunc("/api/users/{uuid}", userApi.OnUpdateUser).Methods("PUT")
+	router.HandleFunc("/api/users", userAPI.OnSignup).Methods("POST")
+	router.HandleFunc("/api/users/{uuid}", userAPI.OnDeleteUser).Methods("DELETE")
+	router.HandleFunc("/api/users/{uuid}", userAPI.OnGetUser).Methods("GET")
+	router.HandleFunc("/api/users/{uuid}", userAPI.OnUpdateUser).Methods("PUT")
 
 	handler := cor.Handler(router)
 	address := fmt.Sprintf(":%s", config.App.Server.Port)
